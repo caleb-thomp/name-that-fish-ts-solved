@@ -9,12 +9,14 @@ export function FunctionalGameBoard({
 }: GameBoard) {
   const [answer, setAnswer] = useState("");
 
-  const formSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     checkAnswer(answer.toLowerCase());
     setAnswer("");
   };
-  const formChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onFormChange = (
+    e: ChangeEvent<HTMLInputElement>
+  ) => {
     setAnswer(e.target.value);
   };
   return (
@@ -22,7 +24,7 @@ export function FunctionalGameBoard({
       <div id="fish-container">
         <img src={fishInfo.url} alt={fishInfo.name} />
       </div>
-      <form id="fish-guess-form" onSubmit={formSubmit}>
+      <form id="fish-guess-form" onSubmit={onFormSubmit}>
         <label htmlFor="fish-guess">
           What kind of fish is this?
         </label>
@@ -30,7 +32,7 @@ export function FunctionalGameBoard({
           type="text"
           name="fish-guess"
           value={answer}
-          onChange={formChange}
+          onChange={onFormChange}
         />
         <input type="submit" />
       </form>

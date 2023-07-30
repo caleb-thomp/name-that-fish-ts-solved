@@ -5,41 +5,25 @@ import { useState } from "react";
 import { initialFishes } from "../../data";
 
 export function FunctionalApp() {
-  const [state, setState] = useState({
-    answersLeft: initialFishes.map((fish) => fish.name),
-    correctCount: 0,
-    incorrectCount: 0,
-    questionIndex: 0,
-  });
+  const [correctCount, setCorrectCount] = useState(0);
+  const [incorrectCount, setIncorrectCount] = useState(0);
+  const questionIndex = correctCount + incorrectCount;
+  const currentFish = initialFishes[questionIndex];
+  const answersLeft = initialFishes
+    .map((obj) => obj.name)
+    .slice(questionIndex);
 
-  const checkAnswer = (name: string) => {
-    setState((prevState) => {
-      const isCorrect =
-        initialFishes[prevState.questionIndex].name ===
-        name;
-      return {
-        ...prevState,
-        correctCount:
-          prevState.correctCount + (isCorrect ? 1 : 0),
-        incorrectCount:
-          prevState.incorrectCount + (isCorrect ? 0 : 1),
-        questionIndex: prevState.questionIndex + 1,
-        answersLeft: prevState.answersLeft.slice(1),
-      };
-    });
+  const checkAnswer = (fishName: string) => {
+    if (fishName === currentFish.name) {
+      setCorrectCount(correctCount + 1);
+    } else {
+      setIncorrectCount(incorrectCount + 1);
+    }
   };
-
-  const {
-    answersLeft,
-    correctCount,
-    incorrectCount,
-    questionIndex,
-  } = state;
-  const totalCount = correctCount + incorrectCount;
 
   return (
     <>
-      {totalCount < 4 ? (
+      {questionIndex < 4 ? (
         <div>
           <FunctionalScoreBoard
             correctCount={correctCount}
@@ -47,13 +31,13 @@ export function FunctionalApp() {
             answersLeft={answersLeft}
           />
           <FunctionalGameBoard
-            fishInfo={initialFishes[questionIndex]}
+            fishInfo={currentFish}
             checkAnswer={checkAnswer}
           />
         </div>
       ) : (
         <FunctionalFinalScore
-          totalCount={totalCount}
+          totalCount={questionIndex}
           correctCount={correctCount}
         />
       )}

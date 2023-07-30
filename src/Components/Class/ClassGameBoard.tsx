@@ -8,7 +8,7 @@ export class ClassGameBoard extends Component<GameBoard> {
     answer: "",
   };
 
-  formSubmit = (e: FormEvent<HTMLFormElement>) => {
+  onFormSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { answer } = this.state;
     const { checkAnswer } = this.props;
@@ -17,7 +17,7 @@ export class ClassGameBoard extends Component<GameBoard> {
     this.setState({ answer: "" });
   };
 
-  formChange = (e: ChangeEvent<HTMLInputElement>) => {
+  onFormChange = (e: ChangeEvent<HTMLInputElement>) => {
     this.setState({ answer: e.target.value });
   };
 
@@ -32,7 +32,7 @@ export class ClassGameBoard extends Component<GameBoard> {
         </div>
         <form
           id="fish-guess-form"
-          onSubmit={this.formSubmit}
+          onSubmit={this.onFormSubmit}
         >
           <label htmlFor="fish-guess">
             What kind of fish is this?
@@ -41,7 +41,7 @@ export class ClassGameBoard extends Component<GameBoard> {
             type="text"
             name="fish-guess"
             value={answer}
-            onChange={this.formChange}
+            onChange={this.onFormChange}
           />
           <input type="submit" />
         </form>
